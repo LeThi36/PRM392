@@ -1,19 +1,25 @@
 package com.example.project2272.Domain;
 
 public class CategoryModel {
-    private String Title;
+    private String title;
     private int id;
     private String picUrl;
 
     public CategoryModel() {
     }
 
+    public CategoryModel(String title, int id, String picUrl) {
+        this.title = title;
+        this.id = id;
+        this.picUrl = picUrl;
+    }
+
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public int getId() {
