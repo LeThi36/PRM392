@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".MainActivity" >
+    tools:context=".Activity.MainActivity" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,11 +15,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="48dp"
+                android:layout_marginHorizontal="24dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -32,19 +35,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginStart="8dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="Welcome Back" />
 
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="Tine Anderson"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -61,6 +68,73 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/bell_icon" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editTextText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableStart="@drawable/search_icon"
+                    android:drawablePadding="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/stroke_bg"
+                    android:inputType="text"
+                    android:hint="Search"
+                    android:drawableEnd="@drawable/microphone" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    app:srcCompat="@drawable/settings_icon" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="24dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/progressBarCategory"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
