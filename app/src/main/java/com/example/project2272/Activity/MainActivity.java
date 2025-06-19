@@ -3,6 +3,7 @@ package com.example.project2272.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -18,6 +19,7 @@ import com.example.project2272.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MainViewModel viewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,4 +43,13 @@ public class MainActivity extends AppCompatActivity {
             binding.progressBarCategory.setVisibility(View.GONE);
         });
     }
+        initSlider();
+    }
+
+    private void initSlider() {
+    }
+
+    private void initCategory() {
+    }
+
 }
