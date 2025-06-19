@@ -1,14 +1,10 @@
-package com.example.project2272;
+package com.example.project2272.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.project2272.databinding.ActivitySplashBinding;
 
