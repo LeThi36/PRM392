@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.Project2272" parent="Base.Theme.Project2272" />
+    <style name="circleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
 </resources>
