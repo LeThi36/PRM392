@@ -8,11 +8,11 @@ public class CategoryModel {
     public CategoryModel() {
     }
 
-    public CategoryModel(String title, int id, String picUrl) {
+    /*public CategoryModel(String title, int id, String picUrl) {
         this.title = title;
         this.id = id;
         this.picUrl = picUrl;
-    }
+    }*/
 
     public String getTitle() {
         return title;

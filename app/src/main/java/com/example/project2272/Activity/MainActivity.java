@@ -10,11 +10,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 
 import com.example.project2272.Adapter.CategoryAdapter;
+import com.example.project2272.Adapter.SliderAdapter;
+import com.example.project2272.Domain.BannerModel;
 import com.example.project2272.R;
 import com.example.project2272.ViewModel.MainViewModel;
 import com.example.project2272.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -30,7 +37,33 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new MainViewModel();
 
         initCategory();
+        initSlider();
 
+    }
+
+    private void initSlider() {
+        binding.progressBarSlider.setVisibility(View.VISIBLE);
+        viewModel.loadBanner().observeForever(bannerModels -> {
+            if(bannerModels != null && !bannerModels.isEmpty()){
+                banners(bannerModels);
+                binding.progressBarSlider.setVisibility(View.GONE);
+            }
+        });
+
+        viewModel.loadBanner();
+    }
+
+    private void banners(ArrayList<BannerModel> bannerModels) {
+        binding.viewPagerSlider.setAdapter(new SliderAdapter(bannerModels, binding.viewPagerSlider));
+        binding.viewPagerSlider.setClipToPadding(false);
+        binding.viewPagerSlider.setClipChildren(false);
+        binding.viewPagerSlider.setOffscreenPageLimit(3);
+        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+
+        binding.viewPagerSlider.setPageTransformer(compositePageTransformer);
     }
 
     private void initCategory() {
@@ -43,13 +76,4 @@ public class MainActivity extends AppCompatActivity {
             binding.progressBarCategory.setVisibility(View.GONE);
         });
     }
-        initSlider();
-    }
-
-    private void initSlider() {
-    }
-
-    private void initCategory() {
-    }
-
 }

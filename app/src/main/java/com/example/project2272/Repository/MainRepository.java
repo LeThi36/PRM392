@@ -64,7 +64,7 @@ public class MainRepository {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.err.println("Failed to read category data: " + error.getMessage());
+                System.err.println("Failed to read banner data: " + error.getMessage());
                 listData.setValue(new ArrayList<>());
             }
         });

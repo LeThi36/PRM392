@@ -3,8 +3,7 @@ package com.example.project2272.Domain;
 public class BannerModel {
     private String url;
 
-    public BannerModel(String url) {
-        this.url = url;
+    public BannerModel() {
     }
 
     public String getUrl() {
