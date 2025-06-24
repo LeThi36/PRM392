@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.project2272.Domain.BannerModel;
 
 import com.example.project2272.Domain.CategoryModel;
+import com.example.project2272.Domain.ItemsModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,6 +66,31 @@ public class MainRepository {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.err.println("Failed to read banner data: " + error.getMessage());
+                listData.setValue(new ArrayList<>());
+            }
+        });
+        return listData;
+    }
+
+    public LiveData<ArrayList<ItemsModel>> loadPopular() {
+        MutableLiveData<ArrayList<ItemsModel>> listData = new MutableLiveData<>();
+        DatabaseReference ref = firebaseDatabase.getReference("Items");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<ItemsModel> list = new ArrayList<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    ItemsModel item = childSnapshot.getValue(ItemsModel.class);
+                    if (item != null) {
+                        list.add(item);
+                    }
+                }
+                listData.setValue(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Failed to read item data: " + error.getMessage());
                 listData.setValue(new ArrayList<>());
             }
         });
