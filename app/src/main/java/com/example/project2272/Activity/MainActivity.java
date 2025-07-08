@@ -42,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
         initCategory();
         initSlider();
         initPopular();
+        bottomNavigation();
 
     }
 
     private void bottomNavigation(){
         binding.bottomNavigation.setItemSelected(R.id.home, true);
-        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener(){
+        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(int i) {
 
