@@ -1,5 +1,6 @@
 package com.example.project2272.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,6 +22,7 @@ import com.example.project2272.Domain.BannerModel;
 import com.example.project2272.R;
 import com.example.project2272.ViewModel.MainViewModel;
 import com.example.project2272.databinding.ActivityMainBinding;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         initSlider();
         initPopular();
 
+    }
+
+    private void bottomNavigation(){
+        binding.bottomNavigation.setItemSelected(R.id.home, true);
+        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(int i) {
+
+            }
+        });
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void initPopular() {

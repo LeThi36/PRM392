@@ -9,6 +9,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project2272.Adapter.CartAdapter;
 import com.example.project2272.R;
 import com.example.project2272.databinding.ActivityCartBinding;
 
@@ -39,6 +40,8 @@ public class CartActivity extends AppCompatActivity {
             binding.scrollView2.setVisibility(View.VISIBLE);
 
         }
+        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.cartView.setAdapter(new CartAdapter(managementCart.getListCart(), this, () -> calculateCart()));
     }
 
     private void setVariable(){
@@ -48,8 +51,10 @@ public class CartActivity extends AppCompatActivity {
         double percentTax = 0.02;
         double delivery = 10.0;
         tax= Math.round((managementCart.getTotalFee() * percentTax)) / 100.0;
+
         double total =Math.round((managementCart.getTotalFee() + tax + delivery) / 100.0;
         double itemTotal = Math.round(managementCart.getTotalFee()) / 100.0;
+
         binding.totalFeeTxt.setText("đ" + itemTotal);
         binding.taxTxt.setText("đ" + tax);
         binding.deliveryTxt.setText("đ" + delivery);
