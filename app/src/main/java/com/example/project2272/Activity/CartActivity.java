@@ -28,7 +28,7 @@ public class CartActivity extends AppCompatActivity {
 
         managmentCart = new ManagmentCart(this);
 
-        calculateCart();
+        calculatorCart();
         setVariable();
         initCartList();
     }
@@ -43,19 +43,19 @@ public class CartActivity extends AppCompatActivity {
 
         }
         binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), this, () -> calculateCart()));
+        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), this, () -> calculatorCart()));
     }
 
     private void setVariable(){
         binding.backBtn.setOnClickListener(v -> finish());
     }
-    private void calculateCart(){
+    private void calculatorCart(){
         double percentTax = 0.02;
         double delivery = 10.0;
-        tax= Math.round((managmentCart.getTotalFee() * percentTax)) / 100.0;
+        tax= Math.round((managmentCart.getTotalFee() * percentTax * 100)) / 100.0;
 
-        double total =Math.round((managmentCart.getTotalFee() + tax + delivery) / 100.0);
-        double itemTotal = Math.round(managmentCart.getTotalFee()) / 100.0;
+        double total =Math.round((managmentCart.getTotalFee() + tax + delivery) * 100 / 100.0);
+        double itemTotal = Math.round((managmentCart.getTotalFee() *100)) / 100.0;
 
         binding.totalFeeTxt.setText("đ" + itemTotal);
         binding.taxTxt.setText("đ" + tax);
