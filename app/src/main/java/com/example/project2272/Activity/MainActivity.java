@@ -1,5 +1,6 @@
 package com.example.project2272.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -45,14 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void bottomNavigation() {
+    private void bottomNavigation(){
         binding.bottomNavigation.setItemSelected(R.id.home, true);
         binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(int i) {
 
             }
         });
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void initPopular() {
