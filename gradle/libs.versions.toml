@@ -1,5 +1,6 @@
 [versions]
-agp = "8.11.0"
+agp = "8.10.0"
+jbcrypt = "0.4"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -13,6 +14,7 @@ fragment = "1.8.8"
 recyclerview = "1.4.0"
 
 [libraries]
+jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
