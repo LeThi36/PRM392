@@ -9,19 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.project2272.Domain.ItemsModel;
+import com.example.project2272.Helper.ChangeNumberItemsListener;
+import com.example.project2272.Helper.ManagmentCart;
 import com.example.project2272.databinding.ViewholderCartBinding;
 
 import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
-    ArrayList<ItemModel> listItemSelected;
+    ArrayList<ItemsModel> listItemSelected;
     ChangeNumberItemsListener changeNumberItemsListener;
-    private ManagementCart managementCart;
+    private ManagmentCart managmentCart;
 
-    public CartAdapter(ArrayList<ItemModel> listItemSelected, Context context, ChangeNumberItemsListener changeNumberItemsListener) {
+    public CartAdapter(ArrayList<ItemsModel> listItemSelected, Context context, ChangeNumberItemsListener changeNumberItemsListener) {
         this.listItemSelected = listItemSelected;
         this.changeNumberItemsListener = changeNumberItemsListener;
-        managementCart = new ManagementCart(context);
+        managmentCart = new ManagmentCart(context);
     }
 
 
@@ -41,13 +44,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 .getNumberInCart() * listItemSelected.get(position).getPrice())));
         holder.binding.numberItemTxt.setText(String.valueOf(listItemSelected.get(position).getNumberInCart()));
         Glide.with(holder.itemView.getContext())
-                .load(listItemSelected.get(position).getImage())
-                .into(holder.binding.imageView);
-        holder.binding.plusItemBtn.setOnClickListener(v -> managementCart.plusItem(listItemSelected, position, () -> {
+                .load(listItemSelected.get(position).getPicUrl().get(0))
+                .into(holder.binding.pic);
+        holder.binding.plusItemBtn.setOnClickListener(v -> managmentCart.plusItem(listItemSelected, position, () -> {
             notifyDataSetChanged();
             changeNumberItemsListener.changed();
         }));
-        holder.binding.minusItemBtn.setOnClickListener(v -> managementCart.minusItem(listItemSelected, position, () -> {
+        holder.binding.minusItemBtn.setOnClickListener(v -> managmentCart.minusItem(listItemSelected, position, () -> {
             notifyDataSetChanged();
             changeNumberItemsListener.changed();
         }));
