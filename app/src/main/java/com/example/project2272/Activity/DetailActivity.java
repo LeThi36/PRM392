@@ -68,8 +68,8 @@ public class DetailActivity extends AppCompatActivity {
     private void getBundles() {
         object = (ItemsModel) getIntent().getSerializableExtra("object");
         binding.titleTxt.setText(object.getTitle());
-        binding.priceTxt.setText("$" + object.getPrice());
-        binding.oldPriceTxt.setText("$" + object.getOldPrice());
+        binding.priceTxt.setText(object.getPrice() + " " + "VND");
+        binding.oldPriceTxt.setText(object.getOldPrice() + " " + "VND");
         binding.oldPriceTxt.setPaintFlags(binding.oldPriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         binding.descriptionTxt.setText(object.getDescription());
