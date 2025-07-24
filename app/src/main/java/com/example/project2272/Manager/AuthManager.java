@@ -13,14 +13,14 @@ import java.util.UUID;
 
 public class AuthManager {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private static User currentUser; // Biến tĩnh để lưu người dùng hiện tại
 
     public AuthManager() {
-        userRepository = new UserRepository();
-      
-    private static User currentUser; // Thêm biến tĩnh để lưu người dùng hiện tại
+        userRepository = new UserRepository(); // ✅ Đóng đúng constructor
+    }
 
-    // Phương thức để lấy người dùng hiện tại
+    // ✅ Getter đúng cho biến static
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -121,7 +121,7 @@ public class AuthManager {
         });
     }
 
-    public void logout() {
-        // Không cần làm gì nếu không lưu session
+    public static void logout() {
+        currentUser = null; // Đặt người dùng hiện tại về null khi đăng xuất
     }
 }
