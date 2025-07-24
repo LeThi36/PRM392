@@ -30,10 +30,11 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="43dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/circle_white_bg"
                 android:padding="6dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/profile" />
 
             <LinearLayout
@@ -67,15 +68,15 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/cart_icon" />
+                app:srcCompat="@drawable/cart_icon"
+                app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/bell_icon" />
+                app:srcCompat="@drawable/bell_icon"
+                app:tint="@color/white" />
         </LinearLayout>
 
         <!-- Shopee-style Search Bar -->
@@ -98,7 +99,8 @@
                 android:inputType="text"
                 android:paddingHorizontal="16dp"
                 android:textColorHint="@color/darkGrey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Filter Button -->
             <ImageView
