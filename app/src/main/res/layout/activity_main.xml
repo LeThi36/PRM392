@@ -48,7 +48,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cửa hàng của tôi"
+                    android:text="Shopping"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -65,18 +65,16 @@
 
             <ImageView
                 android:id="@+id/cartBtn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
                 android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/cart_icon"
-                app:tint="@color/white" />
+                app:srcCompat="@drawable/cart_icon" />
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:srcCompat="@drawable/bell_icon"
-                app:tint="@color/white" />
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                app:srcCompat="@drawable/settings_icon" />
         </LinearLayout>
 
         <!-- Shopee-style Search Bar -->
@@ -95,7 +93,7 @@
                 android:background="@drawable/shopee_search_bg"
                 android:drawableStart="@drawable/search_icon"
                 android:drawablePadding="12dp"
-                android:hint="Tìm kiếm sản phẩm"
+                android:hint="Search Product"
                 android:inputType="text"
                 android:paddingHorizontal="16dp"
                 android:textColorHint="@color/darkGrey"

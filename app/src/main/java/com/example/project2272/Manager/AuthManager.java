@@ -17,6 +17,12 @@ public class AuthManager {
 
     public AuthManager() {
         userRepository = new UserRepository();
+      
+    private static User currentUser; // Thêm biến tĩnh để lưu người dùng hiện tại
+
+    // Phương thức để lấy người dùng hiện tại
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     public interface AuthListener {
@@ -42,6 +48,7 @@ public class AuthManager {
                     User newUser = new User(userId, email, hashedPassword, username, phone, avatarUrl);
                     userRepository.addUser(newUser, task -> {
                         if (task.isSuccessful()) {
+                            currentUser = newUser; // Đặt người dùng hiện tại sau khi đăng ký thành công
                             listener.onSuccess(newUser);
                         } else {
                             listener.onFailure("Đăng ký thất bại: " + task.getException().getMessage());
@@ -65,6 +72,7 @@ public class AuthManager {
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                         User user = userSnapshot.getValue(User.class);
                         if (user != null && PasswordHasher.verifyPassword(password, user.getPassword())) {
+                            currentUser = user; // Lưu thông tin người dùng sau khi đăng nhập thành công
                             listener.onSuccess(user);
                             return;
                         }
