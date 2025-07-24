@@ -51,26 +51,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Không cần EdgeToEdge.enable(this) nếu bạn không tùy chỉnh sâu về nó
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Khởi tạo ViewModel theo cách chuẩn
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        initListeners(); // (THAY ĐỔI 1) - Gọi hàm khởi tạo các listener
+        initListeners();
         initCategory();
         initSlider();
         initPopular();
     }
 
-    // (THAY ĐỔI 2) - Nhóm tất cả các listener vào một hàm riêng để code sạch sẽ hơn
     private void initListeners() {
         // Sự kiện cho nút Giỏ hàng
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
 
-        // Sự kiện cho nút Cài đặt (ID là imageView5 từ layout của bạn)
-        binding.imageView5.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
+        // ĐÃ SỬA: Sự kiện cho nút Cài đặt (ID là imageView3 từ layout của bạn)
+        // Bây giờ nút có biểu tượng cài đặt sẽ dẫn đến SettingsActivity.
+        binding.imageView3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         // Thiết lập cho Bottom Navigation
         bottomNavigation();
@@ -89,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        // Filter/Sort dialog với khoảng giá và 3 tùy chọn sắp xếp
+        // ĐÃ SỬA: Filter/Sort dialog với khoảng giá và 3 tùy chọn sắp xếp
+        // Chức năng này vẫn được gán cho imageView5 (biểu tượng lọc).
         binding.imageView5.setOnClickListener(v -> {
             Dialog dialog = new Dialog(MainActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
                 dialog.getWindow().setWindowAnimations(R.style.DialogSlideAnimation);
             }
-            
+
             // Lấy các view
             EditText etPriceFrom = dialog.findViewById(R.id.etPriceFrom);
             EditText etPriceTo = dialog.findViewById(R.id.etPriceTo);
@@ -118,25 +117,25 @@ public class MainActivity extends AppCompatActivity {
                     // Lấy giá trị khoảng giá
                     String priceFromStr = etPriceFrom != null ? etPriceFrom.getText().toString().replaceAll("[^0-9]", "") : "";
                     String priceToStr = etPriceTo != null ? etPriceTo.getText().toString().replaceAll("[^0-9]", "") : "";
-                    
+
                     Double priceFrom = priceFromStr.isEmpty() ? null : Double.parseDouble(priceFromStr);
                     Double priceTo = priceToStr.isEmpty() ? null : Double.parseDouble(priceToStr);
-                    
+
                     // Lọc theo category VÀ khoảng giá
                     ArrayList<com.example.project2272.Domain.ItemsModel> filteredList = new ArrayList<>();
                     for (com.example.project2272.Domain.ItemsModel item : originalPopularList) {
                         boolean matchesCategory = (selectedCategoryId == -1 || item.getCategoryId() == selectedCategoryId);
-                        boolean matchesSearch = currentSearchText.isEmpty() || 
+                        boolean matchesSearch = currentSearchText.isEmpty() ||
                                 item.getTitle().toLowerCase().contains(currentSearchText.toLowerCase());
                         boolean matchesPrice = true;
                         if (priceFrom != null && item.getPrice() < priceFrom) matchesPrice = false;
                         if (priceTo != null && item.getPrice() > priceTo) matchesPrice = false;
-                        
+
                         if (matchesCategory && matchesSearch && matchesPrice) {
                             filteredList.add(item);
                         }
                     }
-                    
+
                     // Sau đó sắp xếp
                     if (rbRating != null && rbRating.isChecked()) {
                         Collections.sort(filteredList, (o1, o2) -> Double.compare(o2.getRating(), o1.getRating()));
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     } else if (rbPriceDesc != null && rbPriceDesc.isChecked()) {
                         Collections.sort(filteredList, (o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
                     }
-                    
+
                     popularList.clear();
                     popularList.addAll(filteredList);
                     if (popularAdapter != null) {
@@ -154,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 });
             }
-            
+
             dialog.show();
         });
     }
