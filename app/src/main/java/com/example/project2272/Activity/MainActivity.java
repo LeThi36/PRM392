@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider; // Sử dụng ViewModelProvider để khởi tạo ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -50,15 +51,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        // Không cần EdgeToEdge.enable(this) nếu bạn không tùy chỉnh sâu về nó
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        viewModel = new MainViewModel();
+        // Khởi tạo ViewModel theo cách chuẩn
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        initListeners(); // (THAY ĐỔI 1) - Gọi hàm khởi tạo các listener
         initCategory();
         initSlider();
         initPopular();
+    }
+
+    // (THAY ĐỔI 2) - Nhóm tất cả các listener vào một hàm riêng để code sạch sẽ hơn
+    private void initListeners() {
+        // Sự kiện cho nút Giỏ hàng
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
+
+        // Sự kiện cho nút Cài đặt (ID là imageView5 từ layout của bạn)
+        binding.imageView5.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
+
+        // Thiết lập cho Bottom Navigation
         bottomNavigation();
 
         // Search functionality
@@ -150,14 +164,32 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
+                if (i == R.id.home) {
+                    // Đang ở trang Home rồi, không cần làm gì
+                }
+                // Bạn có thể thêm logic điều hướng cho các mục khác ở đây
+                // Ví dụ:
+                // else if (i == R.id.profile) {
+                //     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                // }
                 // Navigation logic có thể thêm ở đây
             }
         });
-        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void initPopular() {
         binding.progressBarPopular.setVisibility(View.VISIBLE);
+        // (TỐI ƯU 1) - Dùng observe(this, ...) thay vì observeForever để tự động hủy lắng nghe, tránh memory leak.
+        viewModel.loadPopular().observe(this, itemsModels -> {
+            if (itemsModels != null && !itemsModels.isEmpty()) {
+                binding.popularView.setLayoutManager(
+                        new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                binding.popularView.setAdapter(new PopularAdapter(itemsModels));
+                binding.popularView.setNestedScrollingEnabled(true);
+            }
+            binding.progressBarPopular.setVisibility(View.GONE);
+        });
+        // (TỐI ƯU 2) - Bỏ lệnh gọi `viewModel.loadPopular()` thừa ở đây. `observe` đã đủ để kích hoạt.
         viewModel.loadPopular().observeForever(itemsModels -> {
             if (!itemsModels.isEmpty()) {
                 originalPopularList.clear();
@@ -185,13 +217,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSlider() {
         binding.progressBarSlider.setVisibility(View.VISIBLE);
-        viewModel.loadBanner().observeForever(bannerModels -> {
+        viewModel.loadBanner().observe(this, bannerModels -> {
             if (bannerModels != null && !bannerModels.isEmpty()) {
                 banners(bannerModels);
-                binding.progressBarSlider.setVisibility(View.GONE);
             }
+            binding.progressBarSlider.setVisibility(View.GONE);
         });
-        viewModel.loadBanner();
     }
 
     private void banners(ArrayList<BannerModel> bannerModels) {
@@ -209,9 +240,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory() {
         binding.progressBarCategory.setVisibility(View.VISIBLE);
-        viewModel.loadCategory().observeForever(categoryModels -> {
-            binding.categoryView.setLayoutManager(new LinearLayoutManager(
-                    MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        viewModel.loadCategory().observe(this, categoryModels -> {
+            if (categoryModels != null && !categoryModels.isEmpty()) {
+                binding.categoryView.setLayoutManager(new LinearLayoutManager(
+                        MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                binding.categoryView.setAdapter(new CategoryAdapter(categoryModels));
+                binding.categoryView.setNestedScrollingEnabled(true);
+            }
             
             CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModels);
             categoryAdapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
@@ -242,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
             // Trigger filter ban đầu
             filterProductsByCategory();
         });
-        viewModel.loadCategory();
     }
 
     // Thêm method để filter sản phẩm theo category

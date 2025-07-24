@@ -3,7 +3,6 @@ package com.example.project2272.Manager;
 import com.example.project2272.Model.User;
 import com.example.project2272.Repository.UserRepository;
 import com.example.project2272.Utils.PasswordHasher;
-// import com.example.project2272.Utils.SessionManager; // Xóa hoặc comment dòng này
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -15,11 +14,15 @@ import java.util.UUID;
 public class AuthManager {
 
     private UserRepository userRepository;
-    // private SessionManager sessionManager; // Xóa dòng này
+    private static User currentUser; // Thêm biến tĩnh để lưu người dùng hiện tại
 
     public AuthManager() {
         userRepository = new UserRepository();
-        // sessionManager = SessionManager.getInstance(); // Xóa dòng này
+    }
+
+    // Phương thức để lấy người dùng hiện tại
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     public interface AuthListener {
@@ -28,7 +31,6 @@ public class AuthManager {
     }
 
     public void register(String email, String password, String username, String phone, String avatarUrl, AuthListener listener) {
-        // Kiểm tra email đã tồn tại
         userRepository.getUserByEmail(email, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -46,8 +48,7 @@ public class AuthManager {
                     User newUser = new User(userId, email, hashedPassword, username, phone, avatarUrl);
                     userRepository.addUser(newUser, task -> {
                         if (task.isSuccessful()) {
-                            // --- XÓA DÒNG LƯU SESSION SAU KHI ĐĂNG KÝ ---
-                            // sessionManager.saveLoginState(userId, email, username, phone, avatarUrl);
+                            currentUser = newUser; // Đặt người dùng hiện tại sau khi đăng ký thành công
                             listener.onSuccess(newUser);
                         } else {
                             listener.onFailure("Đăng ký thất bại: " + task.getException().getMessage());
@@ -71,8 +72,7 @@ public class AuthManager {
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                         User user = userSnapshot.getValue(User.class);
                         if (user != null && PasswordHasher.verifyPassword(password, user.getPassword())) {
-                            // --- XÓA DÒNG LƯU SESSION SAU KHI ĐĂNG NHẬP ---
-                            // sessionManager.saveLoginState(user.getUserId(), user.getEmail(), user.getUsername(), user.getPhone(), user.getAvatarUrl());
+                            currentUser = user; // Lưu thông tin người dùng sau khi đăng nhập thành công
                             listener.onSuccess(user);
                             return;
                         }
@@ -98,14 +98,14 @@ public class AuthManager {
 
         userRepository.updateProfile(userId, updates, task -> {
             if (task.isSuccessful()) {
-                // --- XÓA DÒNG CẬP NHẬT SESSION PROFILE ---
-                // sessionManager.updateSessionProfile(username, phone, avatarUrl);
-                // Lấy lại thông tin user từ DB để đảm bảo thông tin trả về là mới nhất
                 userRepository.getUserById(userId, new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         User updatedUser = snapshot.getValue(User.class);
                         if (updatedUser != null) {
+                            if (currentUser != null && currentUser.getUserId().equals(updatedUser.getUserId())) {
+                                currentUser = updatedUser; // Cập nhật người dùng hiện tại trong AuthManager
+                            }
                             listener.onSuccess(updatedUser);
                         } else {
                             listener.onFailure("Không tìm thấy thông tin người dùng sau khi cập nhật.");
@@ -123,8 +123,7 @@ public class AuthManager {
         });
     }
 
-    public void logout() {
-        // --- XÓA DÒNG LOGOUT SESSION ---
-        // sessionManager.logout();
+    public static void logout() { // Thay đổi thành static
+        currentUser = null; // Xóa thông tin người dùng hiện tại khi đăng xuất
     }
 }
