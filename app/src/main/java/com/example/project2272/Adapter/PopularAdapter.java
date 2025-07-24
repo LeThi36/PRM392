@@ -32,7 +32,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
     @Override
     public PopularAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        ViewholderPopularBinding binding = ViewholderPopularBinding.inflate(LayoutInflater.from(context), parent, false);
+        ViewholderPopularBinding binding = ViewholderPopularBinding.inflate(LayoutInflater.from(context), parent,
+                false);
         return new Viewholder(binding);
     }
 
@@ -43,7 +44,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         holder.binding.ratingTxt.setText("(" + items.get(position).getRating() + ")");
         holder.binding.offPercentTxt.setText(items.get(position).getOffPercent() + " Off");
         holder.binding.oldPriceTxt.setText("$" + items.get(position).getOldPrice());
-        holder.binding.oldPriceTxt.setPaintFlags(holder.binding.oldPriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.binding.oldPriceTxt
+                .setPaintFlags(holder.binding.oldPriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         RequestOptions options = new RequestOptions();
         options = options.transform(new CenterInside());
@@ -65,8 +67,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         return items.size();
     }
 
+    public void updateList(ArrayList<ItemsModel> newList) {
+        this.items = newList;
+        notifyDataSetChanged();
+    }
+
     public class Viewholder extends RecyclerView.ViewHolder {
         ViewholderPopularBinding binding;
+
         public Viewholder(ViewholderPopularBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
