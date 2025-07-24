@@ -192,6 +192,53 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Thêm phần chọn phương thức thanh toán -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:background="@drawable/stroke_bg"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn phương thức thanh toán"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/paymentMethodGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/codRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="💰 Thanh toán khi nhận hàng (COD)"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:padding="8dp" />
+
+                    <RadioButton
+                        android:id="@+id/vnpayRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💳 Thanh toán online qua VNPay"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:padding="8dp" />
+
+                </RadioGroup>
+            </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/checkoutBtn"
                 style="@android:style/Widget.Button"

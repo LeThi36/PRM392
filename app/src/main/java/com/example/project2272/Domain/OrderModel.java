@@ -4,21 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderModel {
-    private String orderId; // Để lưu trữ ID của đơn hàng từ Firebase
+    private String orderId;
     private String userId;
     private String orderDate;
     private double totalAmount;
-    private List<Map<String, Object>> items; // Sử dụng List<Map<String, Object>> để phù hợp với cấu trúc JSON
+    private List<Map<String, Object>> items;
+    private String paymentMethod; // Thêm trường này
+    private String orderStatus; // Thêm trường này
 
     public OrderModel() {
         // Constructor rỗng cần thiết cho Firebase
     }
 
-    public OrderModel(String userId, String orderDate, double totalAmount, List<Map<String, Object>> items) {
+    public OrderModel(String userId, String orderDate, double totalAmount, List<Map<String, Object>> items, String paymentMethod, String orderStatus) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.items = items;
+        this.paymentMethod = paymentMethod;
+        this.orderStatus = orderStatus;
     }
 
     // --- Getters và Setters ---
@@ -60,5 +64,21 @@ public class OrderModel {
 
     public void setItems(List<Map<String, Object>> items) {
         this.items = items;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
