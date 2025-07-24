@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <ImageView
+        android:id="@+id/imageViewProfilePic"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_default_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        tools:ignore="ContentDescription" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProfileInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/imageViewProfilePic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Full Name -->
+            <TextView
+                android:text="Tên:"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Nhập họ tên"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textSize="16sp" />
+
+            <!-- Email (không cho chỉnh sửa) -->
+            <TextView
+                android:text="Email:"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"
+                android:minHeight="48dp"
+                android:textColor="#888888"
+                android:textSize="16sp" />
+
+            <!-- Phone -->
+            <TextView
+                android:text="Số điện thoại:"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Nhập số điện thoại"
+                android:inputType="phone"
+                android:minHeight="48dp"
+                android:textSize="16sp" />
+
+            <!-- Avatar URL -->
+            <TextView
+                android:text="Ảnh đại diện (URL):"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editAvatarUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dán link ảnh tại đây"
+                android:inputType="textUri"
+                android:minHeight="48dp"
+                android:textSize="16sp" />
+
+            <!-- Password -->
+            <TextView
+                android:text="Mật khẩu mới:"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Để trống nếu không muốn đổi"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnSaveProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Lưu Thay Đổi"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#6200EE"
+        android:textColor="@android:color/white"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toBottomOf="@id/cardViewProfileInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        app:cnb_menuResource="@menu/bottom_menu"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_radius="0dp"
+        app:cnb_unselectedColor="@color/darkGrey"
+        app:cnb_iconColor="@color/white"
+        app:cnb_iconSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,14 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import com.bumptech.glide.Glide;
 import com.example.project2272.Activity.CartActivity; // Thêm import này
 import com.example.project2272.Adapter.CategoryAdapter;
 import com.example.project2272.Adapter.PopularAdapter;
 import com.example.project2272.Adapter.SliderAdapter;
 import com.example.project2272.Domain.BannerModel;
+import com.example.project2272.Model.User;
 import com.example.project2272.Domain.CategoryModel; // Đã có
 import com.example.project2272.Domain.ItemsModel; // Thêm import này
 import com.example.project2272.R;
+import com.example.project2272.Repository.UserRepository;
 import com.example.project2272.ViewModel.MainViewModel;
 import com.example.project2272.databinding.ActivityMainBinding;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<com.example.project2272.Domain.ItemsModel> originalPopularList = new ArrayList<>();
     private ArrayList<com.example.project2272.Domain.ItemsModel> popularList = new ArrayList<>();
     private com.example.project2272.Adapter.PopularAdapter popularAdapter;
+    private String userId;
     private int selectedCategoryId = -1;
     private String selectedCategoryTitle = ""; // Thêm biến này
     private String currentSearchText = ""; // Thêm biến để track search text
@@ -72,6 +76,43 @@ public class MainActivity extends AppCompatActivity {
 
         // Thiết lập cho Bottom Navigation
         bottomNavigation();
+
+        userId = getIntent().getStringExtra("userId");
+        if (userId != null) {
+            UserRepository userRepository = new UserRepository();
+            userRepository.getUserById(userId, snapshot -> {
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    if (user.getUsername() != null) {
+                        binding.textView5.setText(user.getUsername());
+                    }
+                    if (user.getAvatarUrl() != null && !user.getAvatarUrl().isEmpty()) {
+                        Glide.with(MainActivity.this)
+                                .load(user.getAvatarUrl())
+                                .placeholder(R.drawable.ic_default_avatar)
+                                .error(R.drawable.ic_default_avatar)
+                                .circleCrop()
+                                .into(binding.imageView2); // 👈 Load avatar vào đây
+                    }
+                }
+            });
+        }
+
+        // Click avatar hoặc tên để mở ViewProfileActivity
+        binding.imageView2.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ViewProfileActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+        });
+
+        binding.textView5.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ViewProfileActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+        });
+
+
+
 
         // Search functionality
         binding.editTextText.addTextChangedListener(new TextWatcher() {
@@ -160,6 +201,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void bottomNavigation() {
         binding.bottomNavigation.setItemSelected(R.id.home, true);
+        binding.bottomNavigation.setOnItemSelectedListener(itemId -> {
+            if (itemId == R.id.home) {
+                // Ở lại trang chủ
+            } else if (itemId == R.id.profile) {
+                Intent intent = new Intent(MainActivity.this, ViewProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
         binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
@@ -175,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initPopular() {
         binding.progressBarPopular.setVisibility(View.VISIBLE);
