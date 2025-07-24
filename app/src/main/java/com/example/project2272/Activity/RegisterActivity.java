@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton; // Import ImageButton
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword, etUsername, etPhone, etAvatarUrl;
     private Button btnRegister;
+    private ImageButton btnBack; // Khai báo nút quay lại
     private AuthManager authManager;
 
     @Override
@@ -30,9 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
         etAvatarUrl = findViewById(R.id.etRegAvatarUrl); // Nếu có
 
         btnRegister = findViewById(R.id.btnRegisterUser);
+        btnBack = findViewById(R.id.btnBack); // Ánh xạ nút quay lại
 
         authManager = new AuthManager();
 
+        // Xử lý sự kiện khi nhấn nút đăng ký
         btnRegister.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -49,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(User user) {
                     Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    // Sau khi đăng ký thành công, sẽ chuyển về màn hình chính
+                    // Sau khi đăng ký thành công, sẽ chuyển về màn hình chính (hoặc LoginActivity nếu muốn)
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish(); // Kết thúc RegisterActivity
@@ -61,5 +65,22 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         });
+
+        // Xử lý sự kiện khi nhấn nút quay lại
+        btnBack.setOnClickListener(v -> {
+            // Quay trở lại trang LoginActivity
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // Kết thúc RegisterActivity
+        });
+    }
+
+    // Bạn cũng có thể override phương thức onBackPressed để xử lý nút Back vật lý của thiết bị
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

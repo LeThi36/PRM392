@@ -53,6 +53,7 @@ dependencies {
 
     // Firebase Realtime Database
     implementation("com.google.firebase:firebase-database:22.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
 
     // jBCrypt for password hashing (Quan trọng cho bảo mật)
     implementation(libs.jbcrypt) // Hoặc phiên bản mới nhất

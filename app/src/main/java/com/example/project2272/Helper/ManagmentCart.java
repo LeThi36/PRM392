@@ -66,4 +66,9 @@ public class ManagmentCart {
         }
         return fee;
     }
+
+    // Thêm phương thức này để xóa giỏ hàng
+    public void clearCart() {
+        tinyDB.remove("CartList");
+    }
 }
