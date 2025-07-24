@@ -30,10 +30,11 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="43dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/circle_white_bg"
                 android:padding="6dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/profile" />
 
             <LinearLayout
@@ -96,7 +97,8 @@
                 android:inputType="text"
                 android:paddingHorizontal="16dp"
                 android:textColorHint="@color/darkGrey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Filter Button -->
             <ImageView

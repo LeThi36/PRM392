@@ -13,12 +13,12 @@ import java.util.UUID;
 
 public class AuthManager {
 
-    private UserRepository userRepository;
-    private static User currentUser; // Thêm biến tĩnh để lưu người dùng hiện tại
+    private final UserRepository userRepository;
 
     public AuthManager() {
         userRepository = new UserRepository();
-    }
+      
+    private static User currentUser; // Thêm biến tĩnh để lưu người dùng hiện tại
 
     // Phương thức để lấy người dùng hiện tại
     public static User getCurrentUser() {
@@ -90,31 +90,29 @@ public class AuthManager {
         });
     }
 
-    public void updateProfile(String userId, String username, String phone, String avatarUrl, AuthListener listener) {
+    public void updateProfile(String userId, String username, String phone, String avatarUrl, String password, AuthListener listener) {
         Map<String, Object> updates = new HashMap<>();
-        if (username != null && !username.isEmpty()) updates.put("username", username);
-        if (phone != null && !phone.isEmpty()) updates.put("phone", phone);
-        if (avatarUrl != null && !avatarUrl.isEmpty()) updates.put("avatarUrl", avatarUrl);
+        updates.put("username", username);
+        updates.put("phone", phone);
+        updates.put("avatarUrl", avatarUrl);
+
+        if (password != null && !password.isEmpty()) {
+            String hashedPassword = PasswordHasher.hashPassword(password);
+            if (hashedPassword == null) {
+                listener.onFailure("Không thể xử lý mật khẩu mới.");
+                return;
+            }
+            updates.put("password", hashedPassword);
+        }
 
         userRepository.updateProfile(userId, updates, task -> {
             if (task.isSuccessful()) {
-                userRepository.getUserById(userId, new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        User updatedUser = snapshot.getValue(User.class);
-                        if (updatedUser != null) {
-                            if (currentUser != null && currentUser.getUserId().equals(updatedUser.getUserId())) {
-                                currentUser = updatedUser; // Cập nhật người dùng hiện tại trong AuthManager
-                            }
-                            listener.onSuccess(updatedUser);
-                        } else {
-                            listener.onFailure("Không tìm thấy thông tin người dùng sau khi cập nhật.");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        listener.onFailure(error.getMessage());
+                userRepository.getUserById(userId, snapshot -> {
+                    User updatedUser = snapshot.getValue(User.class);
+                    if (updatedUser != null) {
+                        listener.onSuccess(updatedUser);
+                    } else {
+                        listener.onFailure("Không tìm thấy thông tin người dùng sau khi cập nhật.");
                     }
                 });
             } else {
@@ -123,7 +121,7 @@ public class AuthManager {
         });
     }
 
-    public static void logout() { // Thay đổi thành static
-        currentUser = null; // Xóa thông tin người dùng hiện tại khi đăng xuất
+    public void logout() {
+        // Không cần làm gì nếu không lưu session
     }
 }
