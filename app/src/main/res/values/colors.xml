@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Basic colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
-    <color name="purple">#5b4cbd</color>
-    <color name="lightGrey">#F4F3F8</color>
-    <color name="grey">#d2d2d2</color>
-    <color name="darkGrey">#616161</color>
+    <color name="purple">#5B4CBD</color>
     <color name="orange">#DC6F31</color>
-    <color name="darkOrange">#C55E2B</color> <color name="colorPrimary">@color/purple</color> <color name="colorSecondary">@color/orange</color> <color name="textColorPrimary">@color/white</color>
-    <color name="textColorSecondary">@color/white_alpha_80</color>
-    <color name="white_alpha_80">#CCFFFFFF</color> <color name="white_alpha_60">#99FFFFFF</color> <color name="gradient_start_purple">#5B4CBD</color>
+    <color name="darkOrange">#C55E2B</color>
+    <color name="grey">#D2D2D2</color>
+    <color name="lightGrey">#F4F3F8</color>
+    <color name="darkGrey">#616161</color>
+
+    <!-- Transparent whites -->
+    <color name="white_alpha_80">#CCFFFFFF</color>
+    <color name="white_alpha_60">#99FFFFFF</color>
+
+    <!-- Gradients -->
+    <color name="gradient_start_purple">#5B4CBD</color>
     <color name="gradient_end_blue">#42A5F5</color>
+
+    <!-- Theme colors -->
+    <color name="colorPrimary">#007BFF</color> <!-- A bright blue -->
+    <color name="colorPrimaryDark">#0056b3</color>
+    <color name="colorAccent">#00C853</color>
+
+    <!-- Text colors -->
+    <color name="textColorPrimary">@color/white</color>
+    <color name="textColorSecondary">@color/white_alpha_80</color>
+
+    <!-- EditText background -->
+    <color name="editTextBackground">#F2F2F2</color>
 </resources>
