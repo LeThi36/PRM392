@@ -25,15 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // --- XÓA TOÀN BỘ PHẦN KHỞI TẠO VÀ KIỂM TRA SESSION ---
-        // sessionManager = SessionManager.getInstance(getApplicationContext());
-        // if (SessionManager.getInstance().isLoggedIn()) {
-        //     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        //     finish();
-        //     return;
-        // }
-        // --- KẾT THÚC PHẦN XÓA ---
-
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);

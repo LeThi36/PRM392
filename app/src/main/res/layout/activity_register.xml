@@ -1,77 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:fillViewport="true"
     tools:context=".Activity.RegisterActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đăng ký tài khoản mới"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
-
-    <EditText
-        android:id="@+id/etRegEmail"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-        <!--android:background="@drawable/edittext_border"/>-->
+        android:paddingBottom="32dp">
 
-    <EditText
-        android:id="@+id/etRegPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-        <!--android:background="@drawable/edittext_border"/>-->
+        <TextView
+            android:id="@+id/tvTitleRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="Tạo Tài Khoản"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etRegUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên người dùng"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-        <!--android:background="@drawable/edittext_border"/>-->
+        <EditText
+            android:id="@+id/etRegUsername"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_person"
+            android:drawablePadding="12dp"
+            android:hint="Tên người dùng"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleRegister" />
 
-    <EditText
-        android:id="@+id/etRegPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
-        android:inputType="phone"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-        <!--android:background="@drawable/edittext_border"/>-->
+        <EditText
+            android:id="@+id/etRegEmail"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="12dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/etRegUsername"
+            app:layout_constraintStart_toStartOf="@+id/etRegUsername"
+            app:layout_constraintTop_toBottomOf="@+id/etRegUsername" />
 
-    <EditText
-        android:id="@+id/etRegAvatarUrl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="URL ảnh đại diện (tùy chọn)"
-        android:inputType="textUri"
-        android:padding="12dp"
-        android:layout_marginBottom="24dp"/>
-        <!--android:background="@drawable/edittext_border"/>-->
+        <EditText
+            android:id="@+id/etRegPhone"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="12dp"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/etRegEmail"
+            app:layout_constraintStart_toStartOf="@+id/etRegEmail"
+            app:layout_constraintTop_toBottomOf="@+id/etRegEmail" />
 
-    <Button
-        android:id="@+id/btnRegisterUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đăng ký"
-        android:padding="12dp"/>
+        <EditText
+            android:id="@+id/etRegPassword"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="12dp"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/etRegPhone"
+            app:layout_constraintStart_toStartOf="@+id/etRegPhone"
+            app:layout_constraintTop_toBottomOf="@+id/etRegPhone" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/etRegAvatarUrl"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_background"
+            android:drawableStart="@drawable/ic_link"
+            android:drawablePadding="12dp"
+            android:hint="URL Ảnh đại diện (tùy chọn)"
+            android:inputType="textUri"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/etRegPassword"
+            app:layout_constraintStart_toStartOf="@+id/etRegPassword"
+            app:layout_constraintTop_toBottomOf="@+id/etRegPassword" />
+
+        <Button
+            android:id="@+id/btnRegisterUser"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_primary_background"
+            android:text="Đăng Ký"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/etRegAvatarUrl"
+            app:layout_constraintStart_toStartOf="@+id/etRegAvatarUrl"
+            app:layout_constraintTop_toBottomOf="@+id/etRegAvatarUrl" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
