@@ -2,7 +2,6 @@ package com.example.project2272.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,7 @@ import com.example.project2272.Helper.ManagmentCart;
 import com.example.project2272.databinding.ViewholderCartBinding;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     ArrayList<ItemsModel> listItemSelected;
@@ -39,9 +39,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, int position) {
         holder.binding.titleTxt.setText(listItemSelected.get(position).getTitle());
-        holder.binding.feeEachItem.setText(listItemSelected.get(position).getPrice() + " " + "VND");
-        holder.binding.totalEachItemTxt.setText(Math.round((listItemSelected.get(position)
-                .getNumberInCart() * listItemSelected.get(position).getPrice())) + " " + "VND");
+        holder.binding.feeEachItem.setText(String.format(Locale.getDefault(), "%,.0f VND", listItemSelected.get(position).getPrice() * 25000));
+        holder.binding.totalEachItemTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", Math.round((listItemSelected.get(position).getNumberInCart() * listItemSelected.get(position).getPrice())) * 25000.0));
         holder.binding.numberItemTxt.setText(String.valueOf(listItemSelected.get(position).getNumberInCart()));
         Glide.with(holder.itemView.getContext())
                 .load(listItemSelected.get(position).getPicUrl().get(0))

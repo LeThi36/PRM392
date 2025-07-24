@@ -201,34 +201,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void bottomNavigation() {
         binding.bottomNavigation.setItemSelected(R.id.home, true);
+
         binding.bottomNavigation.setOnItemSelectedListener(itemId -> {
             if (itemId == R.id.home) {
                 // Ở lại trang chủ
             } else if (itemId == R.id.profile) {
                 Intent intent = new Intent(MainActivity.this, ViewProfileActivity.class);
-                intent.putExtra("userId", userId);
+                intent.putExtra("userId", getIntent().getStringExtra("userId"));
                 startActivity(intent);
             }
         });
 
-
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
-        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int i) {
-                if (i == R.id.home) {
-                    // Đang ở trang Home rồi, không cần làm gì
-                }
-                // Bạn có thể thêm logic điều hướng cho các mục khác ở đây
-                // Ví dụ:
-                // else if (i == R.id.profile) {
-                //     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                // }
-                // Navigation logic có thể thêm ở đây
-            }
-        });
     }
-
 
     private void initPopular() {
         binding.progressBarPopular.setVisibility(View.VISIBLE);

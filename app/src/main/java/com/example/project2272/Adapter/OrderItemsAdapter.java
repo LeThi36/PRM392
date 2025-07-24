@@ -64,7 +64,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         } else if (priceObj instanceof Integer) {
             price = ((Integer) priceObj).doubleValue();
         }
-        holder.priceTxt.setText(String.format(Locale.getDefault(), "%.2f VND", price));
+        holder.priceTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", price));
 
         // --- Xử lý PicUrl (đã khá an toàn) ---
         Object picUrlObj = item.get("picUrl");
