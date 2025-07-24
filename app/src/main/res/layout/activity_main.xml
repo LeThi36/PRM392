@@ -30,8 +30,8 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="43dp"
-                android:layout_height="match_parent"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:background="@drawable/circle_white_bg"
                 android:padding="6dp"
                 android:scaleType="centerCrop"

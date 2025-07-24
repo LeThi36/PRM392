@@ -25,7 +25,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Đã sửa: Sử dụng viewholder_order_history.xml
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_order_history, parent, false);
         return new ViewHolder(inflate);
     }
@@ -33,22 +32,20 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderModel order = orderList.get(position);
-        
+
         holder.orderIdTxt.setText("Mã đơn: " + order.getOrderId());
         holder.orderDateTxt.setText(order.getOrderDate());
-        holder.totalAmountTxt.setText("đ" + String.format("%.0f", order.getTotalAmount()));
-        
-        // Hiển thị phương thức thanh toán và trạng thái
+        holder.totalAmountTxt.setText("Tổng tiền: " + String.format("%.0f", order.getTotalAmount()) + " " + "VND"); // Đã thêm "Tổng tiền: "
+
+        // ĐÃ SỬA: Hiển thị phương thức thanh toán và trạng thái
         String paymentInfo = "";
         if ("COD".equals(order.getPaymentMethod())) {
-            paymentInfo = "💰 COD - " + order.getOrderStatus();
+            paymentInfo = "Phương thức: COD - " + order.getOrderStatus();
         } else if ("VNPay".equals(order.getPaymentMethod())) {
-            paymentInfo = "💳 VNPay - " + order.getOrderStatus();
+            paymentInfo = "Phương thức: VNPay - " + order.getOrderStatus();
         }
-        
-        // Thêm TextView để hiển thị payment info nếu chưa có trong layout
-        // holder.paymentInfoTxt.setText(paymentInfo);
-        
+        holder.paymentStatusTxt.setText(paymentInfo); // Gán text cho TextView mới
+
         // Setup RecyclerView cho items
         if (order.getItems() != null && !order.getItems().isEmpty()) {
             OrderItemsAdapter itemsAdapter = new OrderItemsAdapter(order.getItems());
@@ -63,15 +60,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView orderIdTxt, orderDateTxt, totalAmountTxt;
-        RecyclerView itemsRecyclerView; // RecyclerView cho các mặt hàng trong đơn hàng
+        TextView orderIdTxt, orderDateTxt, totalAmountTxt, paymentStatusTxt; // ĐÃ SỬA: Thêm paymentStatusTxt
+        RecyclerView itemsRecyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdTxt = itemView.findViewById(R.id.orderIdTxt);
             orderDateTxt = itemView.findViewById(R.id.orderDateTxt);
             totalAmountTxt = itemView.findViewById(R.id.totalAmountTxt);
-            // Đã sửa: Sử dụng ID itemsRecyclerView như trong viewholder_order_history.xml
+            paymentStatusTxt = itemView.findViewById(R.id.paymentStatusTxt); // ĐÃ THÊM
             itemsRecyclerView = itemView.findViewById(R.id.itemsRecyclerView);
         }
     }

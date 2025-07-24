@@ -51,11 +51,11 @@ public class CartActivity extends AppCompatActivity {
         calculatorCart();
         setVariable();
         initCartList();
-        
+
         // THÊM: Xử lý VNPay callback khi app được mở từ VNPay
         handleVNPayReturn(getIntent());
     }
-                                                
+
     private void initCartList() {
         if (managmentCart.getListCart().isEmpty()) {
             binding.emptyTxt.setVisibility(View.VISIBLE);
@@ -136,9 +136,9 @@ public class CartActivity extends AppCompatActivity {
             orderItems.add(itemMap);
         }
 
-        // Tạo OrderModel
+        // Tạo OrderModel với trạng thái "Chưa thanh toán" cho COD
         String orderDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
-        OrderModel order = new OrderModel(userId, orderDate, totalAmount, orderItems, "COD", "Pending");
+        OrderModel order = new OrderModel(userId, orderDate, totalAmount, orderItems, "COD", "Chưa thanh toán"); // ĐÃ SỬA
 
         // Lưu vào Firebase
         mDatabase.child("Orders").child(orderId).setValue(order)
@@ -161,48 +161,48 @@ public class CartActivity extends AppCompatActivity {
 
     private void processVNPayPayment() {
         String userId = AuthManager.getCurrentUser() != null ? AuthManager.getCurrentUser().getUserId() : null;
-    
+
         if (userId == null) {
             Toast.makeText(this, "Vui lòng đăng nhập để thanh toán.", Toast.LENGTH_SHORT).show();
             return;
         }
-    
+
         try {
             // Tạo mã đơn hàng VNPay
             String orderId = "VNPAY_" + new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
             this.currentVNPayOrderId = orderId;
-    
+
             String orderInfo = "Thanh toan don hang " + orderId;
             String ipAddr = "192.168.1.1";
-    
+
             // Logging chi tiết
             android.util.Log.d("VNPay", "=== VNPay Payment Process Started ===");
             android.util.Log.d("VNPay", "Order ID: " + orderId);
             android.util.Log.d("VNPay", "Total amount: " + totalAmount);
-    
+
             // Tạo URL thanh toán
             String paymentUrl = VNPayHelper.createPaymentUrl(orderId, (long) totalAmount, orderInfo, ipAddr, "VND");
-            
+
             android.util.Log.d("VNPay", "Generated payment URL: " + paymentUrl);
-            
+
             // Kiểm tra URL có được tạo thành công không
             if (paymentUrl == null || paymentUrl.isEmpty()) {
                 android.util.Log.e("VNPay", "Failed to create payment URL");
                 Toast.makeText(this, "Lỗi tạo URL thanh toán!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
+
             // Kiểm tra URL có chứa các thông tin cần thiết không
             if (!paymentUrl.contains("vnp_Amount") || !paymentUrl.contains("vnp_TxnRef")) {
                 android.util.Log.e("VNPay", "Payment URL missing required parameters");
                 Toast.makeText(this, "URL thanh toán không hợp lệ!", Toast.LENGTH_SHORT).show();
                 return;
             }
-    
+
             // Thử mở trang thanh toán
             android.util.Log.d("VNPay", "Attempting to open payment page...");
             boolean success = VNPayHelper.openVNPayPayment(this, paymentUrl);
-            
+
             if (success) {
                 android.util.Log.d("VNPay", "Successfully opened payment page");
                 Toast.makeText(this, "Đang chuyển đến trang thanh toán VNPay...", Toast.LENGTH_SHORT).show();
@@ -211,7 +211,7 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(this, "Không thể mở trang thanh toán VNPay! Vui lòng thử lại.", Toast.LENGTH_LONG).show();
                 return;
             }
-            
+
         } catch (Exception e) {
             android.util.Log.e("VNPay", "Exception in processVNPayPayment: " + e.getMessage(), e);
             Toast.makeText(this, "Lỗi xử lý thanh toán: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -227,10 +227,10 @@ public class CartActivity extends AppCompatActivity {
         totalAmount = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100) / 100.0;
         double itemTotal = Math.round((managmentCart.getTotalFee() * 100)) / 100.0;
 
-        binding.totalFeeTxt.setText("đ" + itemTotal);
-        binding.taxTxt.setText("đ" + tax);
-        binding.deliveryTxt.setText("đ" + delivery);
-        binding.totalTxt.setText("đ" + totalAmount);
+        binding.totalFeeTxt.setText(itemTotal + " " + "VND");
+        binding.taxTxt.setText(tax + " " + "VND");
+        binding.deliveryTxt.setText(delivery + " " + "VND");
+        binding.totalTxt.setText(totalAmount + " " + "VND");
     }
 
     @Override
@@ -246,12 +246,12 @@ public class CartActivity extends AppCompatActivity {
             String responseCode = data.getQueryParameter("vnp_ResponseCode");
             String transactionStatus = data.getQueryParameter("vnp_TransactionStatus");
             String orderId = data.getQueryParameter("vnp_TxnRef");
-    
+
             android.util.Log.d("VNPay", "=== VNPay Callback Received ===");
             android.util.Log.d("VNPay", "Response Code: " + responseCode);
             android.util.Log.d("VNPay", "Transaction Status: " + transactionStatus);
             android.util.Log.d("VNPay", "Order ID: " + orderId);
-    
+
             if ("00".equals(responseCode) && "00".equals(transactionStatus)) {
                 // Thanh toán VNPay thành công
                 saveVNPayOrderToFirebase(orderId);
@@ -288,10 +288,10 @@ public class CartActivity extends AppCompatActivity {
         }
 
         String orderDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
-        OrderModel order = new OrderModel(userId, orderDate, totalAmount, orderItems, "VNPay", "Paid");
+        OrderModel order = new OrderModel(userId, orderDate, totalAmount, orderItems, "VNPay", "Đã thanh toán"); // ĐÃ SỬA
 
         android.util.Log.d("VNPay", "Saving order to Firebase: " + orderId);
-        
+
         mDatabase.child("Orders").child(orderId).setValue(order)
                 .addOnSuccessListener(aVoid -> {
                     android.util.Log.d("VNPay", "Order saved successfully");
