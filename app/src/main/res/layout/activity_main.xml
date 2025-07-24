@@ -5,123 +5,151 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrey"
+    android:background="@color/shopee_background"
     tools:context=".Activity.MainActivity" >
+
+    <!-- Shopee-style Header -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shopee_header_gradient"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Top bar with icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/circle_white_bg"
+                android:padding="6dp"
+                app:srcCompat="@drawable/profile" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cửa hàng của tôi"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tine Anderson"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/cartBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/cart_icon" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/bell_icon" />
+        </LinearLayout>
+
+        <!-- Shopee-style Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/shopee_search_bg"
+                android:drawableStart="@drawable/search_icon"
+                android:drawablePadding="12dp"
+                android:hint="Tìm kiếm sản phẩm"
+                android:inputType="text"
+                android:paddingHorizontal="16dp"
+                android:textColorHint="@color/darkGrey"
+                android:textSize="14sp" />
+
+            <!-- Filter Button -->
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_white_bg"
+                android:padding="8dp"
+                android:src="@drawable/ic_filter"
+                android:contentDescription="Filter" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical"
-            android:paddingBottom="100dp">
+            android:paddingBottom="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="48dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/profile" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Welcome Back" />
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tine Anderson"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/cartBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    app:srcCompat="@drawable/cart_icon" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/bell_icon" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/stroke_bg"
-                    android:drawableStart="@drawable/search_icon"
-                    android:drawableEnd="@drawable/microphone"
-                    android:drawablePadding="8dp"
-                    android:ems="10"
-                    android:hint="Search"
-                    android:inputType="text"
-                    android:paddingHorizontal="16dp" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    app:srcCompat="@drawable/settings_icon" />
-            </LinearLayout>
-
+            <!-- Categories Section -->
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Category"
+                android:text="Danh mục"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="24dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -137,17 +165,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Banner Slider -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginTop="24dp">
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPagerSlider"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -163,28 +191,30 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Popular Products -->
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Popular"
+                android:text="Gợi ý hôm nay"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/popularView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -202,18 +232,19 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Shopee-style Bottom Navigation -->
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:layout_width="match_parent"
         android:id="@+id/bottomNavigation"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@color/white"
-        android:padding="4dp"
+        android:elevation="8dp"
         app:cnb_menuResource="@menu/bottom_menu"
         app:cnb_orientationMode="horizontal"
-        app:cnb_radius="50dp"
-        app:cnb_unselectedColor="@color/black"
+        app:cnb_radius="0dp"
+        app:cnb_unselectedColor="@color/darkGrey"
         app:cnb_iconColor="@color/white"
-        app:cnb_iconSize="20dp"
+        app:cnb_iconSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Shopee colors -->
+    <color name="shopee_orange">#EE4D2D</color>
+    <color name="shopee_orange_dark">#D73502</color>
+    <color name="shopee_orange_light">#FF6B3D</color>
+    <color name="shopee_red">#FF424F</color>
+    <color name="shopee_background">#F5F5F5</color>
+    <color name="shopee_search_bg">#FFFFFF</color>
+    
     <!-- Basic colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
     <color name="purple">#5B4CBD</color>
-    <color name="orange">#DC6F31</color>
-    <color name="darkOrange">#C55E2B</color>
+    <color name="orange">#EE4D2D</color>
+    <color name="darkOrange">#D73502</color>
     <color name="grey">#D2D2D2</color>
-    <color name="lightGrey">#F4F3F8</color>
+    <color name="lightGrey">#F5F5F5</color>
     <color name="darkGrey">#616161</color>
 
     <!-- Transparent whites -->
@@ -20,9 +28,9 @@
     <color name="gradient_end_blue">#42A5F5</color>
 
     <!-- Theme colors -->
-    <color name="colorPrimary">#007BFF</color> <!-- A bright blue -->
-    <color name="colorPrimaryDark">#0056b3</color>
-    <color name="colorAccent">#00C853</color>
+    <color name="colorPrimary">#EE4D2D</color>
+    <color name="colorPrimaryDark">#D73502</color>
+    <color name="colorAccent">#FF6B3D</color>
 
     <!-- Text colors -->
     <color name="textColorPrimary">@color/white</color>
@@ -30,4 +38,5 @@
 
     <!-- EditText background -->
     <color name="editTextBackground">#F2F2F2</color>
+    <color name="purple_500">#6200EE</color>
 </resources>
