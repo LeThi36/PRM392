@@ -18,7 +18,15 @@
             android:exported="false" />
         <activity
             android:name=".Activity.CartActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="vnpay" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.RegisterActivity"
             android:exported="false" />
@@ -34,22 +42,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.SplashActivity"
             android:exported="false">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true" />
     </application>
-
 </manifest>

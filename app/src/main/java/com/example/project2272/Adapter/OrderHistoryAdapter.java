@@ -33,19 +33,27 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderModel order = orderList.get(position);
-        holder.orderIdTxt.setText("Mã đơn hàng: #" + order.getOrderId());
-        holder.orderDateTxt.setText("Ngày đặt: " + order.getOrderDate());
-        holder.totalAmountTxt.setText(String.format(Locale.getDefault(), "Tổng tiền: đ%.2f", order.getTotalAmount()));
-
+        
+        holder.orderIdTxt.setText("Mã đơn: " + order.getOrderId());
+        holder.orderDateTxt.setText(order.getOrderDate());
+        holder.totalAmountTxt.setText("đ" + String.format("%.0f", order.getTotalAmount()));
+        
+        // Hiển thị phương thức thanh toán và trạng thái
+        String paymentInfo = "";
+        if ("COD".equals(order.getPaymentMethod())) {
+            paymentInfo = "💰 COD - " + order.getOrderStatus();
+        } else if ("VNPay".equals(order.getPaymentMethod())) {
+            paymentInfo = "💳 VNPay - " + order.getOrderStatus();
+        }
+        
+        // Thêm TextView để hiển thị payment info nếu chưa có trong layout
+        // holder.paymentInfoTxt.setText(paymentInfo);
+        
+        // Setup RecyclerView cho items
         if (order.getItems() != null && !order.getItems().isEmpty()) {
-            holder.itemsRecyclerView.setVisibility(View.VISIBLE);
-            // Truyền trực tiếp List<Map<String, Object>> vào OrderItemsAdapter
             OrderItemsAdapter itemsAdapter = new OrderItemsAdapter(order.getItems());
-            holder.itemsRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false));
+            holder.itemsRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
             holder.itemsRecyclerView.setAdapter(itemsAdapter);
-        } else {
-            holder.itemsRecyclerView.setVisibility(View.GONE);
-            // Có thể hiển thị một TextView "Không có sản phẩm" nếu bạn muốn
         }
     }
 
