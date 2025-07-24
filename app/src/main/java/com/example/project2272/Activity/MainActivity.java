@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import com.example.project2272.Activity.CartActivity; // Thêm import này
 import com.example.project2272.Adapter.CategoryAdapter;
 import com.example.project2272.Adapter.PopularAdapter;
 import com.example.project2272.Adapter.SliderAdapter;
 import com.example.project2272.Domain.BannerModel;
+import com.example.project2272.Domain.CategoryModel; // Đã có
+import com.example.project2272.Domain.ItemsModel; // Thêm import này
 import com.example.project2272.R;
 import com.example.project2272.ViewModel.MainViewModel;
 import com.example.project2272.databinding.ActivityMainBinding;
@@ -32,12 +35,17 @@ import android.widget.ImageView;
 import android.app.Dialog;
 import android.view.Window;
 
+import android.util.Log;
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MainViewModel viewModel;
     private ArrayList<com.example.project2272.Domain.ItemsModel> originalPopularList = new ArrayList<>();
     private ArrayList<com.example.project2272.Domain.ItemsModel> popularList = new ArrayList<>();
     private com.example.project2272.Adapter.PopularAdapter popularAdapter;
+    private int selectedCategoryId = -1;
+    private String selectedCategoryTitle = ""; // Thêm biến này
+    private String currentSearchText = ""; // Thêm biến để track search text
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +108,19 @@ public class MainActivity extends AppCompatActivity {
                     Double priceFrom = priceFromStr.isEmpty() ? null : Double.parseDouble(priceFromStr);
                     Double priceTo = priceToStr.isEmpty() ? null : Double.parseDouble(priceToStr);
                     
-                    // Lọc theo khoảng giá trước
+                    // Lọc theo category VÀ khoảng giá
                     ArrayList<com.example.project2272.Domain.ItemsModel> filteredList = new ArrayList<>();
                     for (com.example.project2272.Domain.ItemsModel item : originalPopularList) {
-                        boolean match = true;
-                        if (priceFrom != null && item.getPrice() < priceFrom) match = false;
-                        if (priceTo != null && item.getPrice() > priceTo) match = false;
-                        if (match) filteredList.add(item);
+                        boolean matchesCategory = (selectedCategoryId == -1 || item.getCategoryId() == selectedCategoryId);
+                        boolean matchesSearch = currentSearchText.isEmpty() || 
+                                item.getTitle().toLowerCase().contains(currentSearchText.toLowerCase());
+                        boolean matchesPrice = true;
+                        if (priceFrom != null && item.getPrice() < priceFrom) matchesPrice = false;
+                        if (priceTo != null && item.getPrice() > priceTo) matchesPrice = false;
+                        
+                        if (matchesCategory && matchesSearch && matchesPrice) {
+                            filteredList.add(item);
+                        }
                     }
                     
                     // Sau đó sắp xếp
@@ -159,24 +173,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     popularAdapter.updateList(new ArrayList<>(popularList));
                 }
-            }
-            binding.progressBarPopular.setVisibility(View.GONE);
-        });
-        viewModel.loadPopular();
-    }
-
-    private void filterPopular(String text) {
-        ArrayList<com.example.project2272.Domain.ItemsModel> filteredList = new ArrayList<>();
-        for (com.example.project2272.Domain.ItemsModel item : originalPopularList) {
-            if (item.getTitle() != null && item.getTitle().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
-            }
+            
+            // Hiển thị tất cả sản phẩm mặc định
+            selectedCategoryId = -1;
+            // Không cần gọi filterProductsByCategory() vì đã hiển thị tất cả
         }
-        popularList.clear();
-        popularList.addAll(filteredList);
-        if (popularAdapter != null) {
-            popularAdapter.updateList(new ArrayList<>(popularList));
-        }
+        binding.progressBarPopular.setVisibility(View.GONE);
+    });
+    viewModel.loadPopular();
     }
 
     private void initSlider() {
@@ -208,10 +212,79 @@ public class MainActivity extends AppCompatActivity {
         viewModel.loadCategory().observeForever(categoryModels -> {
             binding.categoryView.setLayoutManager(new LinearLayoutManager(
                     MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-            binding.categoryView.setAdapter(new CategoryAdapter(categoryModels));
+            
+            CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModels);
+            categoryAdapter.setOnCategoryClickListener(new CategoryAdapter.OnCategoryClickListener() {
+                @Override
+                public void onCategoryClick(int categoryId, String categoryTitle) {
+                    Log.d("CategoryClick", "Category clicked: " + categoryTitle + ", ID: " + categoryId);
+                    selectedCategoryId = categoryId;
+                    // Lưu thông tin category title để xử lý "All Products"
+                    selectedCategoryTitle = categoryTitle;
+                    filterProductsByCategory();
+                }
+            });
+            
+            // Tìm và set "All Products" từ database làm mặc định
+            for (int i = 0; i < categoryModels.size(); i++) {
+                if ("All Products".equals(categoryModels.get(i).getTitle())) {
+                    categoryAdapter.setSelectedPosition(i);
+                    selectedCategoryId = categoryModels.get(i).getId();
+                    selectedCategoryTitle = "All Products";
+                    break;
+                }
+            }
+            
+            binding.categoryView.setAdapter(categoryAdapter);
             binding.categoryView.setNestedScrollingEnabled(true);
             binding.progressBarCategory.setVisibility(View.GONE);
+            
+            // Trigger filter ban đầu
+            filterProductsByCategory();
         });
         viewModel.loadCategory();
+    }
+
+    // Thêm method để filter sản phẩm theo category
+    private void filterProductsByCategory() {
+        ArrayList<ItemsModel> filteredList = new ArrayList<>();
+        
+        Log.d("CategoryFilter", "=== FILTER START ===");
+        Log.d("CategoryFilter", "Selected Category ID: " + selectedCategoryId);
+        Log.d("CategoryFilter", "Selected Category Title: " + selectedCategoryTitle);
+        Log.d("CategoryFilter", "Current Search Text: '" + currentSearchText + "'");
+        Log.d("CategoryFilter", "Original list size: " + originalPopularList.size());
+        
+        for (ItemsModel item : originalPopularList) {
+            // Sửa logic: nếu là "All Products" thì hiển thị tất cả
+            boolean matchesCategory = "All Products".equals(selectedCategoryTitle) || 
+                        item.getCategoryId() == selectedCategoryId;
+            boolean matchesSearch = currentSearchText.isEmpty() || 
+                    item.getTitle().toLowerCase().contains(currentSearchText.toLowerCase());
+            
+            Log.d("CategoryFilter", "Item: " + item.getTitle() + 
+                    ", CategoryId: " + item.getCategoryId() + 
+                    ", MatchesCategory: " + matchesCategory + 
+                    ", MatchesSearch: " + matchesSearch);
+            
+            if (matchesCategory && matchesSearch) {
+                filteredList.add(item);
+            }
+        }
+        
+        Log.d("CategoryFilter", "Filtered list size: " + filteredList.size());
+        Log.d("CategoryFilter", "=== FILTER END ===");
+        
+        popularList.clear();
+        popularList.addAll(filteredList);
+        if (popularAdapter != null) {
+            popularAdapter.updateList(new ArrayList<>(popularList));
+        }
+    }
+
+    // Cập nhật method filterPopular để tích hợp với category filter
+    private void filterPopular(String text) {
+        currentSearchText = text;
+        filterProductsByCategory();
     }
 }

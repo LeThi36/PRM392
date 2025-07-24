@@ -17,11 +17,22 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private ArrayList<CategoryModel> items;
     private Context context;
-    private int selectedPosition = -1;
+    private int selectedPosition = 0; // Thay đổi từ -1 thành 0 để chọn "All Categories" mặc định
     private int lastSelectedPosition = -1;
+    private OnCategoryClickListener listener;
+
+    // Thêm interface
+    public interface OnCategoryClickListener {
+        void onCategoryClick(int categoryId, String categoryTitle);
+    }
 
     public CategoryAdapter(ArrayList<CategoryModel> items) {
         this.items = items;
+    }
+
+    // Thêm method để set listener
+    public void setOnCategoryClickListener(OnCategoryClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,8 +55,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 selectedPosition = position;
                 notifyItemChanged(lastSelectedPosition);
                 notifyItemChanged(selectedPosition);
+                
+                // Thêm callback khi click category
+                if (listener != null) {
+                    CategoryModel selectedCategory = items.get(position);
+                    android.util.Log.d("CategoryAdapter", "Category clicked: " + selectedCategory.getTitle() + ", ID: " + selectedCategory.getId());
+                    listener.onCategoryClick(selectedCategory.getId(), selectedCategory.getTitle());
+                }
             }
         });
+        
         if (selectedPosition == position){
             holder.binding.titleTxt.setBackgroundResource(R.drawable.orange_bg);
             holder.binding.titleTxt.setTextColor(context.getResources().getColor(R.color.white));
@@ -53,6 +72,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             holder.binding.titleTxt.setBackgroundResource(R.drawable.stroke_bg);
             holder.binding.titleTxt.setTextColor(context.getResources().getColor(R.color.black));
         }
+    }
+    
+    // Thêm method để set selected position từ bên ngoài
+    public void setSelectedPosition(int position) {
+        int oldPosition = selectedPosition;
+        selectedPosition = position;
+        notifyItemChanged(oldPosition);
+        notifyItemChanged(selectedPosition);
     }
 
     @Override
