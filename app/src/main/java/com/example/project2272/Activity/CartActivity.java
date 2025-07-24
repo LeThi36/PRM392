@@ -220,17 +220,36 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void calculatorCart() {
-        double percentTax = 0.02;
-        double delivery = 10.0;
-        tax = Math.round((managmentCart.getTotalFee() * percentTax * 100)) / 100.0;
+        // Tỷ giá hối đoái giả định: 1 USD = 25,000 VND
+        // Bạn có thể thay đổi giá trị này nếu có tỷ giá chính xác hơn
+        double USD_TO_VND_RATE = 25000.0;
 
-        totalAmount = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100) / 100.0;
-        double itemTotal = Math.round((managmentCart.getTotalFee() * 100)) / 100.0;
+        // Giả sử managmentCart.getTotalFee() và delivery ban đầu là USD
+        double baseFeeUSD = managmentCart.getTotalFee();
+        double deliveryUSD = 2.0;
 
-        binding.totalFeeTxt.setText(itemTotal + " " + "VND");
-        binding.taxTxt.setText(tax + " " + "VND");
-        binding.deliveryTxt.setText(delivery + " " + "VND");
-        binding.totalTxt.setText(totalAmount + " " + "VND");
+        // Chuyển đổi các giá trị cơ bản sang VND
+        double baseFeeVND = baseFeeUSD * USD_TO_VND_RATE;
+        double deliveryVND = deliveryUSD * USD_TO_VND_RATE;
+
+        double percentTax = 0.02; // Thuế vẫn là phần trăm
+
+        // Tính toán thuế dựa trên tổng phí đã chuyển đổi sang VND
+        double taxVND = baseFeeVND * percentTax;
+
+        // Tính tổng tiền ở VND
+        double totalAmountVND = baseFeeVND + taxVND + deliveryVND;
+        double itemTotalVND = baseFeeVND; // Tổng tiền sản phẩm trước thuế và phí ship
+
+        // ĐÃ THÊM: Gán giá trị tổng tiền VND đã tính toán vào biến 'totalAmount' của Activity
+        this.totalAmount = totalAmountVND; // Dòng này rất quan trọng để lưu đúng số tiền vào Firebase
+
+        // Định dạng và hiển thị các giá trị lên UI
+        // Sử dụng String.format(Locale.getDefault(), "%,.0f VND", value) để định dạng số có dấu phẩy ngăn cách hàng nghìn và không có phần thập phân
+        binding.totalFeeTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", itemTotalVND));
+        binding.taxTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", taxVND));
+        binding.deliveryTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", deliveryVND));
+        binding.totalTxt.setText(String.format(Locale.getDefault(), "%,.0f VND", totalAmountVND));
     }
 
     @Override

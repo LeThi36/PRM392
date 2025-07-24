@@ -35,7 +35,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         holder.orderIdTxt.setText("Mã đơn: " + order.getOrderId());
         holder.orderDateTxt.setText(order.getOrderDate());
-        holder.totalAmountTxt.setText("Tổng tiền: " + String.format("%.0f", order.getTotalAmount()) + " " + "VND"); // Đã thêm "Tổng tiền: "
+        holder.totalAmountTxt.setText("Tổng tiền: " + String.format(Locale.getDefault(), "%,.0f VND", order.getTotalAmount())); // Đã thêm "Tổng tiền: "
 
         // ĐÃ SỬA: Hiển thị phương thức thanh toán và trạng thái
         String paymentInfo = "";

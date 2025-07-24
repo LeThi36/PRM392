@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
-
     private void initPopular() {
         binding.progressBarPopular.setVisibility(View.VISIBLE);
         // (TỐI ƯU 1) - Dùng observe(this, ...) thay vì observeForever để tự động hủy lắng nghe, tránh memory leak.
