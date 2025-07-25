@@ -48,9 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Phương thức: COD - Chưa thanh toán"
-            android:textColor="@color/darkGrey"
+            android:textColor="@color/gradient_end_blue"
             android:textSize="14sp"
-            android:textStyle="italic" />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
